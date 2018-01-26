@@ -1,5 +1,4 @@
 
-
 require('dotenv').config();
 // console.log(filePck);
 const appKeys = require('./keys.js');
@@ -8,14 +7,17 @@ const Twitter = require('twitter');
 // require twitter npm
 const Spotify = require('node-spotify-api');
 
-const rq = require('request');
+const request = require('request');
+
+const fs = require('fs');
 
 const input = process.argv;
 
-const command = process.argv[2];
+var command = process.argv[2];
 
-var songName = process.argv[3];
+let songName = process.argv[3];
 
+let movieTitle = process.argv[3];
 
 
 if (command === 'my-tweets') {
@@ -32,6 +34,7 @@ if (command === 'movie-this') {
 
 if (command === 'do-what-it-says') {
 	searchTxtFiles();
+	
 }
 
 
@@ -55,7 +58,7 @@ function getTweets() {
   		//console logging the tweets
   		console.log(tweets[i].text);
   		//console logging the creation date
-  		console.log(tweets[i].created_at);
+  		console.log('Created at ' + tweets[i].created_at);
   	}
 	
 	});
@@ -81,13 +84,13 @@ function getSpotify() {
  		console.log(songName);
  		
  		//console logging the artist name
- 		console.log(data.tracks.items[0].album.artists[0].name);
+ 		console.log('Artist Name: ' + data.tracks.items[0].album.artists[0].name);
  		//console logging the song name
- 		console.log(data.tracks.items[0].name);
+ 		console.log('Song Name: ' + data.tracks.items[0].name);
  		//console logging the link to the song
- 		console.log(data.tracks.items[0].album.artists[0].href);
+ 		console.log('Link to Song: ' + data.tracks.items[0].album.artists[0].href);
  		//console logging the album name
- 		console.log(data.tracks.items[0].album.name);
+ 		console.log('Album Name: ' + data.tracks.items[0].album.name);
 
 
 	});	
@@ -96,25 +99,70 @@ function getSpotify() {
 
 function getMovie() {
 
+	//--------------------------Set Default Movie to "Mr Nobody"
+	if (movieTitle === undefined) {
+			movieTitle = 'Mr+Nobody';
+	}
+
+	request('http://www.omdbapi.com/?apikey=c628a260&t=' + movieTitle, function (error, response) {
+  	var obj = JSON.parse(response.body);
+  	//console logging the Movie Title
+  		console.log('Movie Title: ' + obj.Title);
+  	//console logging the release Year
+  		console.log('Release Year: ' + obj.Year);
+  	//console logging the IMDB rating
+  		console.log('IMDB Rating: ' + obj.Ratings[0].Value);
+  	//console logging the RT rating
+  		console.log('Rotten Tomatoes Rating: ' + obj.Ratings[1].Value);
+  	//console logging country of production
+  		console.log('Produced in: ' + obj.Country);
+  	//console logging the movie language(s)
+  		console.log('Movie Language: ' + obj.Language);
+  	//console logging the plot of the movie
+  		console.log('Plot: ' + obj.Plot);
+  	//console logging the actors in the movie
+  		console.log('Actors: ' + obj.Actors)
+	});
 
 
+}
 
 
+function searchTxtFiles() {
 
+  fs.readFile('random.txt', "utf8", function(err, data) {
+  // If there was an error reading the file, we log it and return immediately
+  	if (err) {
+    	return console.log(err);
+    } 
 
+  	var returnedData = data;
+
+  	var splitData = returnedData.split(',');
+
+  	command = splitData[0];
+  	songName = splitData[1];
+  	movieTitle = splitData[1];
+
+  	if (command === 'my-tweets') {
+		getTweets();
+    }
+
+    if (command === 'spotify-this-song') {
+		getSpotify();
+    }
+
+  	if (command === 'movie-this') {
+		getMovie();
+    }
+
+  });
 
 }
 
 
 
 
-
-
-
-
-
-
-// console.log(JSON.stringify(client.request('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=NoThanksTweeter&count=2')).split(','));
 
 
 
