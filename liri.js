@@ -6,10 +6,12 @@ const appKeys = require('./keys.js');
 const Twitter = require('twitter');
 // require twitter npm
 const Spotify = require('node-spotify-api');
-
+//require request
 const request = require('request');
-
+//require fs
 const fs = require('fs');
+//require inquirer
+const inquirer = require('inquirer');
 
 const input = process.argv;
 
@@ -37,8 +39,10 @@ if (command === 'do-what-it-says') {
 	
 }
 
-
+//------------------------------------Launch Twitter 
 function getTweets() {
+
+  console.log()
 
 	var client = new Twitter({
  		consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -65,6 +69,7 @@ function getTweets() {
 
 }
 
+//-------------------------------------Launch Spotify
 function getSpotify() {
 	
 	var spotify = new Spotify({
@@ -97,6 +102,7 @@ function getSpotify() {
 	
 }
 
+//------------------------------Launch OMDB using Request
 function getMovie() {
 
 	//--------------------------Set Default Movie to "Mr Nobody"
@@ -127,7 +133,7 @@ function getMovie() {
 
 }
 
-
+//-----------------------------------------Using read file to access random text file
 function searchTxtFiles() {
 
   fs.readFile('random.txt', "utf8", function(err, data) {
@@ -160,6 +166,35 @@ function searchTxtFiles() {
 
 }
 
+// function twitterInquirer() {
+
+//   inquirer.prompt([
+//   {
+//     name: "name",
+//     message: "What is your name?"
+//   }, {
+//     name: "position",
+//     message: "What is your current position?"
+//   }, {
+//     name: "age",
+//     message: "How old are you?"
+//   }, {
+//     name: "language",
+//     message: "What is your favorite programming language?"
+//   }
+// ]).then(function(answers) {
+//   // initializes the variable newguy to be a programmer object which will take
+//   // in all of the user's answers to the questions above
+//   var newGuy = new Programmer(answers.name, answers.position, answers.age, answers.language);
+//   // printInfo method is run to show that the newguy object was successfully created and filled
+//   newGuy.printInfo();
+// });
+
+
+
+
+
+// }
 
 
 
