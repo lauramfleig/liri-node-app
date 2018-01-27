@@ -8,7 +8,9 @@ LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and R
 -OMDB
 
 ## Node Packages
+
 -Spotify
+
 -Twitter
 -Request
 -DotEnv
