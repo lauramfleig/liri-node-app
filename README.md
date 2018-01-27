@@ -4,7 +4,9 @@ LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and R
 
 ## Data Sources
 -Spotify
+
 -Twitter
+
 -OMDB
 
 ## Node Packages
@@ -12,7 +14,10 @@ LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and R
 -Spotify
 
 -Twitter
+
 -Request
+
 -DotEnv
+
 -Inquirer
   
